@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View and Edit Generated Questions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #questions {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 600px;
+            white-space: pre-wrap;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Generated Questions</h1>
+
+    <textarea id="questions">Loading questions...</textarea>
+
+    <button onclick="saveQuestions();">Save Changes</button>
+
+    <script>
+        // Load the generated questions
+        fetch("get_questions.php")
+        .then((res) => res.text())
+        .then((res) => {
+            document.getElementById("questions").value = res;
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            document.getElementById("questions").value = "Failed to load questions. Please try again later.";
+        });
+
+        // Save the edited questions
+        function saveQuestions() {
+            var editedQuestions = document.getElementById("questions").value;
+
+            fetch("save_questions.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    questions: editedQuestions
+                }),
+            })
+            .then((res) => res.text())
+            .then((res) => {
+                alert(res);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert("Failed to save questions. Please try again later.");
+            });
+        }
+    </script>
+
+</body>
+
+</html>

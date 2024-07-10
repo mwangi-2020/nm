@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Page</title>
+    <style>
+        /* Add any additional styling you need here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            margin: 5px 0;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #resultContainer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Answer the Questions</h1>
+    <form id="studentForm" action="submit.php" method="post"> <!-- Submit to submit.php -->
+        <div id="questionsContainer"></div>
+        <button type="submit">Submit Answers</button>
+    </form>
+    <div id="resultContainer"></div>
+
+    <script>
+        let fetchedQuestions = [];
+
+        document.addEventListener("DOMContentLoaded", function() {
+            fetchQuestions();
+        });
+
+        function fetchQuestions() {
+            fetch("fetch_questions.php")
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById("questionsContainer");
+                    container.innerHTML = "";
+                    if (data.questions && data.questions.length > 0) {
+                        fetchedQuestions = data.questions;
+                        fetchedQuestions.forEach((question, index) => {
+                            const questionDiv = document.createElement("div");
+                            questionDiv.className = "question";
+                            questionDiv.innerHTML = `
+                                <label for="answer${index + 1}">Question ${index + 1}:</label>
+                                <input type="hidden" name="question${index + 1}" value="${question}">
+                                <p>${question}</p>
+                                <textarea id="answer${index + 1}" name="answer${index + 1}" rows="3" placeholder="Type your answer here..."></textarea>
+                            `;
+                            container.appendChild(questionDiv);
+                        });
+                    } else {
+                        container.innerHTML = `<p style="color: red;">${data.error}</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching questions:", error);
+                    const container = document.getElementById("questionsContainer");
+                    container.innerHTML = `<p style="color: red;">Failed to fetch questions.</p>`;
+                });
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+    <style>
+        :root {
+            --primary-color: #0edf0e;
+            --hover-color: #d7e610;
+            --message-bg: #dff0d8;
+            --message-border: #d6e9c6;
+            --message-text: #0f1110;
+            --timer-color: #ff0000;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .message {
+            background-color: var(--message-bg);
+            border: 1px solid var(--message-border);
+            color: var(--message-text);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: var(--hover-color);
+        }
+        .timer {
+            font-size: 30px;
+            color: var(--timer-color);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message" role="alert">
+            <h2>Answers submitted successfully!</h2>
+            <p>Your answers have been successfully submitted. Click 'View Results' button to check your scores.</p>
+        </div>
+        <div class="timer" id="timer">Time remaining: 5:00</div>
+        <a href="mark.php" id="markBtn" class="btn" aria-label="Mark the questions">Mark the questions</a>
+        <a href="view_results.php" class="btn" aria-label="View Results">View Results</a>
+    </div>
+
+    <script>
+        // Countdown timer logic
+        let timerElement = document.getElementById('timer');
+        let markBtn = document.getElementById('markBtn');
+        let timeRemaining = 300; // 5 minutes in seconds
+
+        function updateTimer() {
+            let minutes = Math.floor(timeRemaining / 60);
+            let seconds = timeRemaining % 60;
+            timerElement.textContent = `You can view your results in: ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+            if (timeRemaining > 0) {
+                timeRemaining--;
+            } else {
+                clearInterval(timerInterval);
+                window.location.href = 'mark.php'; // Redirect to mark.php after 5 minutes
+            }
+        }
+
+        let timerInterval = setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>

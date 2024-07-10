@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Ready</title>
+    <style>
+        :root {
+            --primary-color: #4b4ef7;
+            --hover-color: #05be87;
+            --message-bg: #dff0d8;
+            --message-border: #d6e9c6;
+            --message-text: #0f1110;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .message {
+            background-color: var(--message-bg);
+            border: 1px solid var(--message-border);
+            color: var(--message-text);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            margin: 5px;
+        }
+        .btn:hover {
+            background-color: var(--hover-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message" role="alert">
+            <h2>Your results are ready!</h2>
+            <p>Click 'View My Scores' to check your results or 'Back' to return to the previous page.</p>
+        </div>
+        <a href="student_dashboard.php" class="btn" aria-label="Back">Back</a>
+        <a href="view_results.php" class="btn" aria-label="View My Scores">View My Scores</a>
+    </div>
+</body>
+</html>
